@@ -1,0 +1,139 @@
+package vkraft_java_training_Day2;
+
+import java.util.Scanner;
+
+
+class Employee {
+ protected String name;
+ protected int id;
+ protected String designation;
+ protected double basicSalary;
+
+ public Employee(String name, int id, String designation, double basicSalary) {
+     this.name = name;
+     this.id = id;
+     this.designation = designation;
+     this.basicSalary = basicSalary;
+ }
+
+ public double calculateSalary() {
+     return basicSalary; 
+ }
+
+ public void displayDetails() {
+     System.out.println("Employee ID: " + id);
+     System.out.println("Name: " + name);
+     System.out.println("Designation: " + designation);
+     System.out.println("Basic Salary: " + basicSalary);
+     System.out.println("Total Salary: " + calculateSalary());
+ }
+}
+
+
+class FullTimeEmployee extends Employee {
+ private double hra; 
+ private double da;  
+
+ public FullTimeEmployee(String name, int id, String designation, double basicSalary, double hra, double da) {
+     super(name, id, designation, basicSalary);
+     this.hra = hra;
+     this.da = da;
+ }
+
+ @Override
+ public double calculateSalary() {
+     return basicSalary + hra + da; 
+ }
+}
+
+
+class PartTimeEmployee extends Employee {
+ private int hoursWorked;
+ private double hourlyWage;
+
+ public PartTimeEmployee(String name, int id, String designation, double hourlyWage, int hoursWorked) {
+     super(name, id, designation, 0); // Basic salary not applicable for part-time employees
+     this.hourlyWage = hourlyWage;
+     this.hoursWorked = hoursWorked;
+ }
+
+ @Override
+ public double calculateSalary() {
+     return hoursWorked * hourlyWage; // Part-time salary based on hourly wage
+ }
+
+ @Override
+ public void displayDetails() {
+     System.out.println("Employee ID: " + id);
+     System.out.println("Name: " + name);
+     System.out.println("Designation: " + designation);
+     System.out.println("Hourly Wage: " + hourlyWage);
+     System.out.println("Hours Worked: " + hoursWorked);
+     System.out.println("Total Salary: " + calculateSalary());
+ }
+}
+
+//Main class
+public class EmployeePayrollSystem {
+ public static void main(String[] args) {
+     Scanner scanner = new Scanner(System.in);
+
+     System.out.println("Choose Employee Type:");
+     System.out.println("1. Full-Time Employee");
+     System.out.println("2. Part-Time Employee");
+     System.out.print("Enter your choice: ");
+     int choice = scanner.nextInt();
+     scanner.nextLine(); // Consume newline
+
+     if (choice == 1) {
+         // Input for Full-Time Employee
+         System.out.print("Enter Name: ");
+         String name = scanner.nextLine();
+
+         System.out.print("Enter ID: ");
+         int id = scanner.nextInt();
+
+         System.out.print("Enter Designation: ");
+         scanner.nextLine(); // Consume newline
+         String designation = scanner.nextLine();
+
+         System.out.print("Enter Basic Salary: ");
+         double basicSalary = scanner.nextDouble();
+
+         System.out.print("Enter HRA: ");
+         double hra = scanner.nextDouble();
+
+         System.out.print("Enter DA: ");
+         double da = scanner.nextDouble();
+
+         FullTimeEmployee fullTimeEmployee = new FullTimeEmployee(name, id, designation, basicSalary, hra, da);
+         System.out.println("\nFull-Time Employee Details:");
+         fullTimeEmployee.displayDetails();
+     } else if (choice == 2) {
+         
+         System.out.print("Enter Name: ");
+         String name = scanner.nextLine();
+
+         System.out.print("Enter ID: ");
+         int id = scanner.nextInt();
+
+         System.out.print("Enter Designation: ");
+         scanner.nextLine(); 
+         String designation = scanner.nextLine();
+
+         System.out.print("Enter Hourly Wage: ");
+         double hourlyWage = scanner.nextDouble();
+
+         System.out.print("Enter Hours Worked: ");
+         int hoursWorked = scanner.nextInt();
+
+         PartTimeEmployee partTimeEmployee = new PartTimeEmployee(name, id, designation, hourlyWage, hoursWorked);
+         System.out.println("\nPart-Time Employee Details:");
+         partTimeEmployee.displayDetails();
+     } else {
+         System.out.println("Invalid choice!");
+     }
+
+     scanner.close();
+ }
+}
